@@ -1,0 +1,23 @@
+# ninja log v5
+1	303	6738894919154583	CMakeFiles/Takuzu.dir/main.c.obj	5d109ac95a2b5c5a
+10	100	6738905915455991	CMakeFiles/Takuzu.dir/takuzu.c.obj	7360a7ef7909fa09
+2	126	6738905915716004	CMakeFiles/Takuzu.dir/main.c.obj	5d109ac95a2b5c5a
+127	277	6738905917065206	Takuzu.exe	41a1ba18b35d8d83
+10	91	6738906078098573	CMakeFiles/Takuzu.dir/takuzu.c.obj	7360a7ef7909fa09
+2	101	6738906078198615	CMakeFiles/Takuzu.dir/main.c.obj	5d109ac95a2b5c5a
+101	244	6738906079508966	Takuzu.exe	41a1ba18b35d8d83
+2	103	6738908014571394	CMakeFiles/Takuzu.dir/main.c.obj	5d109ac95a2b5c5a
+3	100	6738908152937198	CMakeFiles/Takuzu.dir/takuzu.c.obj	7360a7ef7909fa09
+101	243	6738908154237693	Takuzu.exe	41a1ba18b35d8d83
+2	100	6738908591739370	CMakeFiles/Takuzu.dir/main.c.obj	5d109ac95a2b5c5a
+101	244	6738908593049801	Takuzu.exe	41a1ba18b35d8d83
+3	98	6738908917538904	CMakeFiles/Takuzu.dir/main.c.obj	5d109ac95a2b5c5a
+99	253	6738908918889402	Takuzu.exe	41a1ba18b35d8d83
+10	101	6738910942120814	CMakeFiles/Takuzu.dir/takuzu.c.obj	7360a7ef7909fa09
+2	102	6738910942120814	CMakeFiles/Takuzu.dir/main.c.obj	5d109ac95a2b5c5a
+102	244	6738910943426061	Takuzu.exe	41a1ba18b35d8d83
+2	98	6738911462408153	CMakeFiles/Takuzu.dir/takuzu.c.obj	7360a7ef7909fa09
+99	245	6738911463783271	Takuzu.exe	41a1ba18b35d8d83
+3	373	6739112898488582	CMakeFiles/Takuzu.dir/main.c.obj	5d109ac95a2b5c5a
+4	138	6739113093550298	CMakeFiles/Takuzu.dir/takuzu.c.obj	7360a7ef7909fa09
+139	488	6739113096921009	Takuzu.exe	41a1ba18b35d8d83
