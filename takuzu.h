@@ -10,14 +10,15 @@
 #define FALSE 0
 
 void grid();
-int rules();
-int goal_of_the_game();
+void rules();
+void goal_of_the_game();
 int beginner_level();
 int intermediate_level();
 int hard_level();
-int modification_grid();
+void modification_grid(int size, int grid[size][size]);
 
-void display(int size, int grille[size][size]);
-int** masked_matrix(int size, int grille[size][size]);
+void display(int size, int** grid);
+void display_masked(int size, int grid[size][size], int** mask);
+int** masked_matrix(int size);
 
 #endif //TAKUZU_TAKUZU_H
