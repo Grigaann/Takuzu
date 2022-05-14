@@ -1,10 +1,12 @@
 #include "takuzu.h"
 
+
+
 int main() {
     int choice, subchoice, difficulty;
     int grid_size;
     int** mask_matrix;
-    int ** grid_used;
+    int** grid_used;
     BOOL separation_displayed = FALSE, running = TRUE;
 
     int solution_4x4_spawn[SIZE_BEGINNER][SIZE_BEGINNER] = {0, 1, 0, 1,
@@ -29,6 +31,7 @@ int main() {
                                                             1, 1, 0, 1, 0, 1, 0, 0};
     int** solution_8x8 = from_static_to_dynamic(SIZE_ADVANCED,solution_8x8_spawn);
 
+    srand(time(NULL));
 
 
     printf("\n              ========================\n"
@@ -51,6 +54,7 @@ int main() {
         switch (choice) {
             case 0:
                 running = FALSE;
+                printf("\nSee you soon\n");
                 break;
             case 1 :
                 rules();
@@ -69,7 +73,7 @@ int main() {
                 }
                 else {
                     grid_size = SIZE_ADVANCED;
-                    copy_array(grid_size,solution_8x8,grid_used);
+                    grid_used = solution_8x8;
                 }
                 do {
                     printf("Now what do you want to do ?\n"
@@ -81,8 +85,12 @@ int main() {
                 switch (subchoice) {
                     case 1: {
                         mask_matrix = generate_mask(grid_size, 'm');
+                        printf("Here is what you've entered :\n");
                         display(grid_size, mask_matrix);
-                        printf("Following the associated displayed matrix :\n");
+                        printf("And bellow is the associated displayed matrix :\n");
+                        int** grid_game = generate_null_array(grid_size);
+                        copy_array(grid_size,apply_mask(grid_size,grid_used,mask_matrix),grid_game);
+                        display(grid_size,grid_game);
                         break;
                     }
                     case 2: {
@@ -92,17 +100,18 @@ int main() {
                         mask_matrix = generate_mask(grid_size, 'a');
                         display(grid_size, mask_matrix);
                         printf("To give the following resulting matrix :\n");
+                        display(grid_size, apply_mask(grid_size,grid_used,mask_matrix));
                         break;
                     }
                     case 3: {
-                        mask_matrix = generate_mask(grid_size, 'a');
-                        modify_grid(grid_size, solution_4x4);
+                        is_playing(grid_size, solution_4x4);
                         break;
                     }
                 }
             }
             case 4 : {
-                //solve_grid();
+                printf("%d", verification(grid_size,solution_4x4,TRUE,3));
+                //solve();
                 break;
             }
             case 5 : {
@@ -118,7 +127,7 @@ int main() {
                     grid_size = SIZE_ADVANCED;
                     grid_used = solution_8x8;
                 }
-                //generate_grid(difficulty);
+                //generate_grid(grid_size);
                 break;
             }
             default :
