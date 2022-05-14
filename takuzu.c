@@ -55,6 +55,7 @@ int** generate_mask(int size, char manner){
     }
     return masked_grid;
 }
+
 /*int** Generate_mask(int size, char manner) {
     int line, col, cpt, mask_line, mask_column, nb_hidden = size * 2;
     int **masked_grid = generate_null_array(size);
