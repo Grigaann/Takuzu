@@ -55,6 +55,36 @@ int** generate_mask(int size, char manner){
     }
     return masked_grid;
 }
+/*int** Generate_mask(int size, char manner) {
+    int line, col, cpt, mask_line, mask_column, nb_hidden = size * 2;
+    int **masked_grid = generate_null_array(size);
+    for (cpt = 0; cpt < nb_hidden; cpt++) {
+        mask_line = rand() % size;
+        mask_column = rand() % size;
+        for (line = 0; line < size; line++) {
+            for (col = 0; col < size; col++) {
+                if (manner == 'a') {
+                    if (mask_line == line && mask_column == col) {
+                        masked_grid[mask_line][mask_column] = 0;
+                    } else {
+                        if (masked_grid[line][col] == 0) {
+                            masked_grid[line][col] = 0;
+                        } else {
+                            masked_grid[line][col] = 1;
+                        }
+                    }
+                } else if (manner == 'm') {
+                    do {
+                        printf("Enter 0 or 1 to be the value in line %d and column %d :\n", line, col);
+                        scanf("%d", masked_grid[line][col]);
+                    } while (masked_grid[line][col] != 1 && masked_grid[line][col] != 0);
+                }
+            }
+        }
+        return masked_grid;
+    }
+}*/
+
 
 void is_playing(int size,int ** solution){
     int life_points = 3;
