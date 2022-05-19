@@ -1,37 +1,54 @@
 #include "takuzu.h"
 
+int valid_rows_4x4[6][4] = {0, 0, 1, 1,
+                            0, 1, 0, 1,
+                            1, 0, 1, 0,
+                            1, 1, 0, 0,
+                            1, 0, 0, 1,
+                            0, 1, 1, 0};
 
+
+int valid_rows_8x8[30][8] = {0, 0, 1, 0, 1, 0, 1, 1,
+                             0, 0, 1, 0, 1, 1, 0, 1,
+                             0, 0, 1, 1, 0, 0, 1, 1,
+                             0, 0, 1, 1, 0, 1, 0, 1,
+                             0, 0, 1, 1, 0, 1, 1, 0,
+                             0, 1, 0, 0, 1, 1, 0, 1,
+                             0, 1, 0, 0, 1, 0, 1, 1,
+                             0, 1, 0, 1, 0, 1, 0, 1,
+                             0, 1, 0, 1, 1, 0, 0, 1,
+                             0, 1, 0, 1, 1, 0, 1, 0,
+                             0, 1, 1, 0, 0, 1, 0, 1,
+                             0, 1, 1, 0, 0, 1, 1, 0,
+                             0, 1, 1, 0, 1, 0, 0, 1,
+                             0, 1, 1, 0, 1, 0, 1, 0,
+                             0, 1, 1, 0, 1, 1, 0, 0,
+                             1, 0, 0, 1, 0, 0, 1, 1,
+                             1, 0, 0, 1, 0, 1, 0, 1,
+                             1, 0, 0, 1, 0, 1, 1, 0,
+                             1, 0, 0, 1, 1, 0, 0, 1,
+                             1, 0, 0, 1, 1, 0, 1, 0,
+                             1, 0, 1, 0, 0, 1, 0, 1,
+                             1, 0, 1, 0, 0, 1, 1, 0,
+                             1, 0, 1, 0, 1, 0, 1, 0,
+                             1, 0, 1, 1, 0, 0, 1, 0,
+                             1, 0, 1, 1, 0, 1, 0, 0,
+                             1, 1, 0, 0, 1, 0, 0, 1,
+                             1, 1, 0, 0, 1, 0, 1, 0,
+                             1, 1, 0, 0, 1, 1, 0, 0,
+                             1, 1, 0, 1, 0, 0, 1, 0,
+                             1, 1, 0, 1, 0, 1, 0, 0};
 
 int main() {
     int choice, subchoice, difficulty;
-    int grid_size;
+    int grid_size, limit;
     int** mask_matrix;
-    int** grid_used;
+    int** solution;
+    int** grid_game;
+    char explained;
     BOOL separation_displayed = FALSE, running = TRUE;
-
-    int solution_4x4_spawn[SIZE_BEGINNER][SIZE_BEGINNER] = {0, 1, 0, 1,
-                                                            1, 0, 0, 1,
-                                                            1, 0, 1, 0,
-                                                            0, 1, 1, 0};
-    int ** solution_4x4 = from_static_to_dynamic(SIZE_BEGINNER,solution_4x4_spawn);
-
-    int mask_grid_4x4_spawn[SIZE_BEGINNER][SIZE_BEGINNER] = {0, 0, 0, 0,
-                                                             0, 1, 1, 0,
-                                                             1, 0, 0, 0,
-                                                             0, 0, 0, 0};
-    int** mask_grid_4x4 = from_static_to_dynamic(SIZE_BEGINNER,mask_grid_4x4_spawn);
-
-    int solution_8x8_spawn[SIZE_ADVANCED][SIZE_ADVANCED] = {0, 0, 1, 0, 1, 0, 1, 1,
-                                                            0, 1, 0, 1, 0, 1, 0, 1,
-                                                            1, 0, 1, 0, 0, 1, 1, 0,
-                                                            0, 1, 1, 0, 1, 0, 1, 0,
-                                                            1, 0, 0, 1, 1, 0, 0, 1,
-                                                            1, 0, 1, 1, 1, 1, 0, 0,
-                                                            0, 1, 0, 0, 1, 0, 1, 1,
-                                                            1, 1, 0, 1, 0, 1, 0, 0};
-    int** solution_8x8 = from_static_to_dynamic(SIZE_ADVANCED,solution_8x8_spawn);
-
     srand(time(NULL));
+
 
 
     printf("\n              ========================\n"
@@ -67,13 +84,10 @@ int main() {
                     printf("Choose a difficulty (between 1 and 2)\n");
                     scanf("%d", &difficulty);
                 } while (difficulty < 1 || difficulty > 2);
-                if (difficulty == 1){
+                if (difficulty == 1) {
                     grid_size = SIZE_BEGINNER;
-                    grid_used = solution_4x4;
-                }
-                else {
+                } else {
                     grid_size = SIZE_ADVANCED;
-                    grid_used = solution_8x8;
                 }
                 do {
                     printf("Now what do you want to do ?\n"
@@ -84,56 +98,111 @@ int main() {
                 } while (subchoice < 1 || subchoice > 3);
                 switch (subchoice) {
                     case 1: {
+                        solution = generate_grid(grid_size,'h');
                         mask_matrix = generate_mask(grid_size, 'm');
                         printf("Here is what you've entered :\n");
                         display(grid_size, mask_matrix);
-                        printf("And bellow is the associated displayed matrix :\n");
-                        int** grid_game = generate_null_array(grid_size);
-                        copy_array(grid_size,apply_mask(grid_size,grid_used,mask_matrix),grid_game);
-                        display(grid_size,grid_game);
+                        printf("And below is a random associated matrix :\n");
+                        grid_game = apply_mask(grid_size,solution,mask_matrix);
+                        //copy_array(grid_size, apply_mask(grid_size, solution, mask_matrix), grid_game);
+                        display(grid_size, grid_game);
                         break;
                     }
                     case 2: {
-                        printf("Using the following grid :\n");
-                        display(grid_size,grid_used);
+                        printf("Using the following random grid :\n");
+                        solution = generate_grid(grid_size,'h');
+                        display(grid_size, solution);
                         printf("Has been applied the following mask :\n");
                         mask_matrix = generate_mask(grid_size, 'a');
                         display(grid_size, mask_matrix);
                         printf("To give the following resulting matrix :\n");
-                        display(grid_size, apply_mask(grid_size,grid_used,mask_matrix));
+                        display(grid_size, apply_mask(grid_size, solution, mask_matrix));
                         break;
                     }
                     case 3: {
-                        is_playing(grid_size, solution_4x4);
+                        is_playing(grid_size, generate_grid(grid_size, 'h'));
                         break;
                     }
+                    default:
+                        printf("");
                 }
+                break;
             }
             case 4 : {
-                printf("%d", verification(grid_size,solution_4x4,TRUE,3));
-                //solve();
+                do {
+                    printf("Choose a difficulty (between 1 and 2)\n");
+                    scanf("%d", &difficulty);
+                } while (difficulty < 1 || difficulty > 2);
+                if (difficulty == 1) {
+                    grid_size = SIZE_BEGINNER;
+                } else {
+                    grid_size = SIZE_ADVANCED;
+                }
+                printf("There will be a %d seconds cooldown between each step\n", grid_size/2);
+                sleep(1);
+                solution = generate_grid(grid_size,'h');
+                mask_matrix = generate_mask(grid_size, 'a');
+                grid_game = generate_null_array(grid_size);
+                printf("Here is the initial grid :\n");
+                copy_array(grid_size, apply_mask(grid_size, solution, mask_matrix), grid_game);
+                display(grid_size, grid_game);
+                if (solve(grid_size, grid_game))
+                    printf("\nWork done.\n");
                 break;
             }
             case 5 : {
                 do {
-                    printf("Choose a difficulty (between 1 and 3)\n");
+                    printf("Now what do you want to do ?\n"
+                           "1 - Generate a random grid\n"
+                           "2 - Display all valid rows\n");
+                    scanf("%d", &subchoice);
+                } while (subchoice < 1 || subchoice > 2);
+                do {
+                    printf("Choose a difficulty (between 1 and 2)\n");
                     scanf("%d", &difficulty);
                 } while (difficulty < 1 || difficulty > 2);
-                if (difficulty == 1){
+                if (difficulty == 1) {
                     grid_size = SIZE_BEGINNER;
-                    grid_used = solution_4x4;
-                }
-                else {
+                    limit = 6;
+                } else {
                     grid_size = SIZE_ADVANCED;
-                    grid_used = solution_8x8;
+                    limit = 29;
                 }
-                //generate_grid(grid_size);
+                switch (subchoice) {
+                    case 1: {
+                        do {
+                            printf("Choose a whether you want the details or not ('d' for display or 'h' for hidden)\n");
+                            scanf("%s", &explained);
+                        } while (explained != 'd' && explained != 'h');
+                        grid_game = generate_grid(grid_size, explained);
+                        if (explained=='h')
+                            display(grid_size,grid_game);
+                        printf("\nThe above grid is a good one.\n");
+                        break;
+                    }
+                    case 2: {
+                        printf("Here is the list of all the valid combinations for a %dx%d grid :\n",grid_size,grid_size);
+                        for (int broutille = 0; broutille < limit; broutille++) {
+                            for (int broutillebis = 0; broutillebis < grid_size; broutillebis++) {
+                                if (difficulty == 1)
+                                    printf("\t%d", valid_rows_4x4[broutille][broutillebis]);
+                                else
+                                    printf("\t%d", valid_rows_8x8[broutille][broutillebis]);
+                            }
+                            printf("\n");
+                        }
+                        break;
+                    }
+                    default:
+                        printf("You're not supposed to see that...\n");
+                }
                 break;
             }
             default :
-                printf("Your choice isn't valid.");
+                printf("See you soon\n");
         }
         separation_displayed = TRUE;
+        sleep(2);
     }
     return 0;
 }
